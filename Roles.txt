@@ -1,0 +1,5 @@
+Scrum Master: Lauro Borges
+Developer #1: Angel Burgos
+Developer #2: Sara Cathey
+Tester #1: Rory Croasdale
+Tester #2: Tuan Minh Dao
