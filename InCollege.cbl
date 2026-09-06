@@ -23,9 +23,14 @@
       *        Reads the file line by line
                Organization is line sequential.
            Select user-file
-               Assign to "InCollege-Users.txt"
+               Assign to "InCollege-Usernames.txt"
                Organization is line sequential.
-
+           Select check-user-file
+               Assign to "InCollege-Usernames.txt"
+               Organization is line sequential.
+           Select pw-file
+               Assign to "InCollege-Passwords.txt"
+               Organization is line sequential.  
       * Used for initializing variables.
        DATA DIVISION.
       * Note: File section must go before working-storage section.
@@ -38,18 +43,25 @@
        FD user-file.
        01 User-Record pic X(1000).
 
+       FD check-user-file.
+       01 Check-User-Record pic X(1000).
+
+       FD pw-file.
+       01 PW-Record pic X(1000).
       * Variables unrelated to files
        Working-Storage Section.
        01 username pic X(100).
        01 password pic X(12).
        01 input-char pic 9(5).
+       01 user-num pic 9(5).
 
       * The 3 character requirements for the password
-      * "all" will be Y when the other 3 are Y
        01 cap-flag pic X value "N".
        01 num-flag pic X value "N".
        01 spec-flag pic X value "N".
 
+      * Is username unique or not
+       01 unique-flag pic X value "Y".
       * Boolean to determine the end of file
        01 end-of-file pic X value "N".
       * This is where you do the actual logic stuff.
@@ -58,8 +70,9 @@
            Display "Log In".
            Display "Create New Account".
            Display "Enter your choice:".
-      *     Open the file and do things
+      *     Open the files so they can do things
            Open input input-file
+
       *     Note: Read must happen once for each line in the file
       *     Note: This read is the main function
            Read input-file
@@ -69,8 +82,18 @@
                        Display "[Create New Account]"
                        Perform CREATE-USERNAME
                        Display username
+      *                Add username to user file
+                       Open extend user-file
+                       Move username to User-Record
+                       Write User-Record
+                       Close user-file
                        Perform CREATE-PASSWORD
                        Display password
+      *                Add password to password file
+                       Open extend pw-file
+                       Move password to PW-Record
+                       Write PW-Record
+                       Close pw-file
                        Display "Your account has been created."
                    End-if
 
@@ -84,13 +107,6 @@
                        Display "You have successfully logged in."
                    End-if
                End-read.
-      *        IGNORE THESE COMMENTS
-      *         perform until eof
-      *         read
-      *         if user = input
-      *                end the file
-      *         endread
-      *         endperform
 
            Close input-file
       *    Note: Stop run goes before the functions ("paragraphs")
@@ -101,8 +117,27 @@
                    Not at end
                        Display "Please create a username:"
       *                Make sure username is unique
-                       Move Input-Record to username
-      *                Add username to user file
+                       Open input check-user-file
+                       Move "N" to end-of-file
+                       Perform until end-of-file = "Y"
+                           Read check-user-file
+                               At end
+                                   Move "Y" to end-of-file
+                               Not at end
+                                   If Input-Record = Check-User-Record
+                                       Move "N" to unique-flag
+                                   End-if
+                            End-read
+                       End-perform
+                       Close check-user-file
+
+                       If unique-flag = "Y"
+                           Move Input-Record to username
+                           Move "N" to unique-flag
+                       else
+                           Display "That username is already taken."
+                           Perform CREATE-USERNAME
+                       End-if
                End-read.
 
            CREATE-PASSWORD.
@@ -204,7 +239,6 @@
                If cap-flag = "Y" AND num-flag = "Y"
                   AND spec-flag = "Y"
                    Move Input-Record to password
-      *            TODO Add password to pw file
       *        Reset the flags and try again    
                Else            
                    Move "N" to cap-flag
