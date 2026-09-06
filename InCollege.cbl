@@ -22,6 +22,9 @@
                Assign to "InCollege-Input.txt"
       *        Reads the file line by line
                Organization is line sequential.
+           Select user-file
+               Assign to "InCollege-Users.txt"
+               Organization is line sequential.
 
       * Used for initializing variables.
        DATA DIVISION.
@@ -31,9 +34,22 @@
        FD input-file.
       * Stores info from current line of file
        01 Input-Record pic X(1000).
+       
+       FD user-file.
+       01 User-Record pic X(1000).
+
+      * Variables unrelated to files
        Working-Storage Section.
        01 username pic X(100).
        01 password pic X(12).
+       01 input-char pic 9(5).
+
+      * The 3 character requirements for the password
+      * "all" will be Y when the other 3 are Y
+       01 cap-flag pic X value "N".
+       01 num-flag pic X value "N".
+       01 spec-flag pic X value "N".
+
       * Boolean to determine the end of file
        01 end-of-file pic X value "N".
       * This is where you do the actual logic stuff.
@@ -50,19 +66,21 @@
                Not at end
       *            User creates a new account
                    If Input-Record = "Create New Account"
-                       Display "Please create a username:"
+                       Display "[Create New Account]"
                        Perform CREATE-USERNAME
-                       Display "Please create a password:"
+                       Display username
                        Perform CREATE-PASSWORD
+                       Display password
                        Display "Your account has been created."
                    End-if
 
       *            User logs in to existing account
                    If Input-Record = "Log In"
-                       Display "Please enter your username:"
+                       Display "[Log In]"
                        Perform ENTER-USERNAME
-                       Display "Please enter your password:"
+                       Display username
                        Perform ENTER-PASSWORD
+                       Display password
                        Display "You have successfully logged in."
                    End-if
                End-read.
@@ -81,6 +99,7 @@
            CREATE-USERNAME.
                Read input-file
                    Not at end
+                       Display "Please create a username:"
       *                Make sure username is unique
                        Move Input-Record to username
       *                Add username to user file
@@ -89,28 +108,37 @@
            CREATE-PASSWORD.
                Read input-file
                    Not at end
-      *                Note: Evaluate/when is like a switch/case
-      *                Note: Only way to do if-elif statements
+                       Display "Please create a password:"
+      *                Reset the flags for character requirements
+                       Move "N" to cap-flag
+                       Move "N" to num-flag
+                       Move "N" to spec-flag
+      *                Note: Evaluate/when is like a switch/case.
+      *                Note: Only way to do if-elif statements.
                        Evaluate TRUE
-      *                    Note: (8:1) means check the 8th character.
+      *                    Note: (8:1) refers to the 8th character.
                            When Input-Record(8:1) = Space
+                               Display Input-Record(1:100)
+                               Display "Your password must contain "
+                                       "at least 8 characters."
       *                        If pw is invalid, run this code again
                                Perform CREATE-PASSWORD
                            When Input-Record(13:1) NOT = Space
+                               Display Input-Record(1:100)
+                               Display "Your password must contain "
+                                       "no more than 12 characters."
                                Perform CREATE-PASSWORD
-      *                    When password doesn't contain:
-      *                    1 special char, 1 digit, or 1 capital letter
-      *                        Perform CREATE-PASSWORD
-      *                    Only true when no other conditions are met
+      *                    Check the char reqs if the length is right
                            When OTHER
-                               Move Input-Record to password
-      *                        Add password to pw file
+      *                        Password is created in this paragraph
+                               Perform PASSWORD-CHECKS                        
                        End-evaluate
                End-read.
 
            ENTER-USERNAME.
                Read input-file
                    Not at end
+                       Display "Please enter your username:"
       *                If username exists in the system
                        Move Input-Record to username
                End-read.
@@ -118,6 +146,69 @@
            ENTER-PASSWORD.
                Read input-file
                    Not at end
+                       Display "Please enter your password:"
       *                If password exists in the system
                        Move Input-Record to password
                End-read.
+
+           PASSWORD-CHECKS.
+      *        Note: "Perform varying" is like a for-loop
+      *        Check for a capital letter
+               Perform varying input-char from 1 by 1
+                   Until Input-Record(input-char:1) = Space
+                      OR cap-flag = "Y"
+                         If Input-Record(input-char:1) >= "A"
+                         AND Input-Record(input-char:1) <= "Z"
+                               Move "Y" to cap-flag
+                           End-if
+               End-perform
+               If cap-flag = "N"
+                   Display Input-Record(1:100)
+                   Display "Your password must contain "
+                           "at least 1 capital letter." 
+               Perform CREATE-PASSWORD
+               End-if
+
+      *        Check for a number
+               Perform varying input-char from 1 by 1
+                   Until Input-Record(input-char:1) = Space
+                      OR num-flag = "Y"
+                           If Input-Record(input-char:1) IS numeric
+                               Move "Y" to num-flag
+                           End-if
+               End-perform
+               If num-flag = "N"
+                   Display Input-Record(1:100)
+                   Display "Your password must contain "
+                           "at least 1 digit."
+                   Perform CREATE-PASSWORD
+               End-if.
+
+      *        Check for a special character
+               Perform varying input-char from 1 by 1
+                   Until Input-Record(input-char:1) = Space
+                      OR spec-flag = "Y"
+                         If Input-Record(input-char:1) IS NOT alphabetic
+                         AND Input-Record(input-char:1) IS NOT numeric
+                               Move "Y" to spec-flag
+                         End-if
+               End-perform
+               If spec-flag = "N"
+                   Display Input-Record(1:100)
+                   Display "Your password must contain "
+                           "at least 1 special character."
+                   Perform CREATE-PASSWORD
+               End-if
+
+      *        Flag that the requirements are all met
+               If cap-flag = "Y" AND num-flag = "Y"
+                  AND spec-flag = "Y"
+                   Move Input-Record to password
+      *            TODO Add password to pw file
+      *        Reset the flags and try again    
+               Else            
+                   Move "N" to cap-flag
+                   Move "N" to num-flag
+                   Move "N" to spec-flag
+                   Perform CREATE-PASSWORD
+               End-if.
