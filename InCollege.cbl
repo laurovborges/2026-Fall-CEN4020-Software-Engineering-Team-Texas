@@ -22,6 +22,9 @@
                Assign to "InCollege-Input.txt"
       *        Reads the file line by line
                Organization is line sequential.
+           select output-file
+               Assign to "InCollege-Output.txt"
+               Organization is line sequential.
            Select user-file
                Assign to "InCollege-Usernames.txt"
                Organization is line sequential.
@@ -40,6 +43,9 @@
       * Stores info from current line of file
        01 Input-Record pic X(1000).
        
+       FD output-file.
+       01 Output-Record pic X(1000).
+
        FD user-file.
        01 User-Record pic X(1000).
 
@@ -52,6 +58,8 @@
        Working-Storage Section.
        01 username pic X(100).
        01 password pic X(12).
+
+       01 output-message pic X(1000).
        01 input-char pic 9(5).
        01 user-num pic 9(5).
 
@@ -71,50 +79,70 @@
 
       * This is where you do the actual logic stuff.
        PROCEDURE DIVISION.
-           Display "Welcome to InCollege!".
-           Display "Log In".
-           Display "Create New Account".
-           Display "Enter your choice:".
-      *     Open the files so they can do things
            Open input input-file
+           open output output-file
+
+           Move "Welcome to InCollege!" to output-message
+           Perform WRITE-OUTPUT
+
+           Move "Log In" to output-message
+           Perform WRITE-OUTPUT
+
+           Move "Create New Account" to output-message
+           Perform WRITE-OUTPUT
+
+           Move "Enter your choice:" to output-message
+           Perform WRITE-OUTPUT
+
+      *     Open the files so they can do things
 
       *     Note: Read must happen once for each line in the file
       *     Note: This read is the main function
            Read input-file
                At end
-                   Display "End of input."
+                   Move "End of input." to output-message
+                   Perform WRITE-OUTPUT    
                    Close input-file
+                   Close output-file
                    STOP RUN
                Not at end
       *            User creates a new account
                    If Input-Record = "Create New Account"
                         Perform COUNT-ACCOUNTS
                      If user-num >=5
-                         Display "All permitted accounts have been" 
-                         "created, please come back later."
+                         Move "All permitted accounts have been 
+      -                   " created, please come back later." 
+                         to output-message
+                         Perform WRITE-OUTPUT
                      else
-                       Display "[Create New Account]"
+                       Move "[Create New Account]" to output-message
+                       Perform WRITE-OUTPUT
                        Perform CREATE-USERNAME
-                       Display username
+                       Move username to output-message
+                       Perform WRITE-OUTPUT
       *                Add username to user file
                        Open extend user-file
                        Move username to User-Record
                        Write User-Record
                        Close user-file
                        Perform CREATE-PASSWORD
-                       Display password
+                       Move password to output-message
+                       Perform WRITE-OUTPUT
       *                Add password to password file
                        Open extend pw-file
                        Move password to PW-Record
                        Write PW-Record
                        Close pw-file
-                       Display "Your account has been created."
+                       Move "Your account has been created." 
+                       to output-message
+                       Perform WRITE-OUTPUT
                      End-if
                   End-if
 
       *            User logs in to existing account
                    If Input-Record = "Log In"
-                       Display "[Log In]"
+                       Move "[Log In]" to output-message
+                       Perform WRITE-OUTPUT
                        Perform ENTER-USERNAME
                        Move 0 to curr-line
                        Perform ENTER-PASSWORD
@@ -122,6 +150,7 @@
                End-read.
 
            Close input-file
+           Close output-file
       *    Note: Stop run goes before the functions ("paragraphs")
            STOP RUN.
 
@@ -130,11 +159,14 @@
                Perform until unique-flag = "Y"
                    Read input-file
                    At end
-                       Display "End of input."
+                       Move "End of input." to output-message
+                       Perform WRITE-OUTPUT
                        Close input-file
+                       Close output-file
                        STOP RUN
                    Not at end
-                       Display "Please create a username:"
+                       Move "Please create a username:"to output-message
+                       Perform WRITE-OUTPUT
                        Move Input-Record to temp-username
                        Move "Y" to unique-flag
       *                Make sure username is unique
@@ -156,8 +188,10 @@
                If unique-flag = "Y"
                   Move temp-username to username
                Else
-                   Display "That username is already taken."
-                   Move "N" to unique-flag
+                  Move "That username is already taken." 
+                  to output-message
+                  Perform WRITE-OUTPUT
+                  Move "N" to unique-flag
                End-if
                End-read
                End-perform.
@@ -165,11 +199,15 @@
            CREATE-PASSWORD.
                Read input-file
                    At end
-                       Display "End of input."
+                       Move "End of input." to output-message
+                       Perform WRITE-OUTPUT
                        Close input-file
+                       Close output-file
                        STOP RUN
                    Not at end
-                       Display "Please create a password:"
+                       Move "Please create a password:" 
+                       to output-message
+                       Perform WRITE-OUTPUT
       *                Reset the flags for character requirements
                        Move "N" to cap-flag
                        Move "N" to num-flag
@@ -179,19 +217,28 @@
                        Evaluate TRUE
       *                    Note: (8:1) refers to the 8th character.
                            When Input-Record(8:1) = Space
-                               Display Input-Record(1:100)
-                               Display "Your password must contain "
-                                       "at least 8 characters."
+                               Move Input-Record(1:100) 
+                               to output-message
+                               Perform WRITE-OUTPUT
+                               Move "Your password must contain
+      -                               " at least 8 characters."
+                                      to output-message
+                                      Perform WRITE-OUTPUT
       *                        If pw is invalid, run this code again
                                Perform CREATE-PASSWORD
                            When Input-Record(13:1) NOT = Space
-                               Display Input-Record(1:100)
-                               Display "Your password must contain "
-                                       "no more than 12 characters."
+                               Move Input-Record(1:100) 
+                               to output-message
+                               Perform WRITE-OUTPUT
+                               Move "Your password must contain
+      -                                 " no more than 12 characters."
+                                       to output-message
+                                       Perform WRITE-OUTPUT
                                Perform CREATE-PASSWORD
       *                    Check the char reqs if the length is right
                            When OTHER
-                               Display "moving on"
+                               Move "moving on" to output-message
+                               Perform WRITE-OUTPUT
       *                        Password is created in this paragraph
                                Perform PASSWORD-CHECKS                        
                        End-evaluate
@@ -200,11 +247,15 @@
            ENTER-USERNAME.
                Read input-file
                    At end
-                       Display "End of input."
+                       Move "End of input." to output-message
+                       Perform WRITE-OUTPUT
                        Close input-file
+                       Close output-file
                        STOP RUN
                    Not at end
-                       Display "Please enter your username:"
+                       Move "Please enter your username:" 
+                       to output-message
+                       Perform WRITE-OUTPUT
                        Move Input-Record to username
       *                If username exists in the system
                        Move "N" to end-of-file
@@ -217,16 +268,19 @@
                                Not at end
                                    Add 1 to pw-line
                                    If username = User-Record
-                                       Display username
+                                       Move username to output-message
+                                       Perform WRITE-OUTPUT
                                        Exit perform
                                    End-if
                             End-read
                         End-perform
                         Close user-file
                         If end-of-file = "Y"
-                           Display username
-                           Display "Incorrect username. "
-                                   "Please try again."
+                           Move username to output-message
+                           Perform WRITE-OUTPUT
+                           Move "Incorrect username.
+      -                          " Please try again." to output-message
+                           Perform WRITE-OUTPUT
                            Perform ENTER-USERNAME
                         End-if
                End-read.
@@ -234,12 +288,15 @@
            ENTER-PASSWORD.
                Read input-file
                    At end
-                       Display "End of input."
+                       Move "End of input." to output-message
+                       Perform WRITE-OUTPUT
                        Close input-file
-                       
+                       Close output-file
                        STOP RUN
                    Not at end
-                       Display "Please enter your password:"
+                       Move "Please enter your password:" 
+                       to output-message
+                       Perform WRITE-OUTPUT
                        Move Input-Record to password
 
       *                If password exists in the system
@@ -251,16 +308,27 @@
                                    Add 1 to curr-line
                            End-read
                        End-perform
-                       Display password
+                       Move password to output-message
+                       Perform WRITE-OUTPUT
                        If password = PW-Record
                            Close pw-file
       *                 Note: This is where the user can navigate to different parts of the program                    
-                           Display "You have successfully logged in."
-                           Display "Welcome " username "!"
+                           Move "You have successfully logged in."
+                           to output-message
+                           Perform WRITE-OUTPUT
+                           Initialize output-message
+                           String
+                           "Welcome " Delimited by Size
+                           Function Trim(username) Delimited by size
+                           "!" Delimited by Size
+                           Into output-message
+                           END-STRING
+                           Perform WRITE-OUTPUT
                            Perform NAVIGATION        
                        Else
-                           Display "Incorrect password. "
-                                   "Please try again."
+                           Move "Incorrect password.
+      -                           " Please try again." to output-message
+                           Perform WRITE-OUTPUT
                            Close pw-file
                            Perform ENTER-PASSWORD
                        End-if
@@ -278,9 +346,10 @@
                            End-if
                End-perform
                If cap-flag = "N"
-                   Display Input-Record(1:100)
-                   Display "Your password must contain "
-                           "at least 1 capital letter." 
+                   Move "Your password must contain
+      -                   " at least 1 capital letter." 
+                           to output-message
+                   Perform WRITE-OUTPUT
                Perform CREATE-PASSWORD
                End-if
 
@@ -293,9 +362,9 @@
                            End-if
                End-perform
                If num-flag = "N"
-                   Display Input-Record(1:100)
-                   Display "Your password must contain "
-                           "at least 1 digit."
+                   Move "Your password must contain
+      -                  " at least 1 digit." to output-message
+                   Perform WRITE-OUTPUT
                    Perform CREATE-PASSWORD
                End-if
 
@@ -309,9 +378,10 @@
                          End-if
                End-perform
                If spec-flag = "N"
-                   Display Input-Record(1:100)
-                   Display "Your password must contain "
-                           "at least 1 special character."
+                   Move "Your password must contain
+      -                   " at least 1 special character."
+                           to output-message
+                   Perform WRITE-OUTPUT
                    Perform CREATE-PASSWORD
                End-if
 
@@ -345,69 +415,103 @@
                
       *        Note: This is for the navigation menu 
            NAVIGATION.
-               Display "1. Search for a job"
-               Display "2. Find someone you know"
-               Display "3. Learn a new skill"
-               Display "4. Log Out"
-               Display "Enter your choice:"
+               Move "1. Search for a job" to output-message
+                Perform WRITE-OUTPUT
+               Move "2. Find someone you know" to output-message
+                Perform WRITE-OUTPUT
+               Move "3. Learn a new skill" to output-message
+                Perform WRITE-OUTPUT
+               Move "4. Log Out" to output-message
+                Perform WRITE-OUTPUT
+               Move "Enter your choice:" to output-message
+                Perform WRITE-OUTPUT
 
                Read input-file
                    At end
-                       Display "End of input."
+                       Move "End of input." to output-message
+                          Perform WRITE-OUTPUT
                        Close input-file
+                       Close output-file
                        STOP RUN
                    Not at end
                        If Input-Record = "1"
-                           Display "Job search/internship" 
-                                   "is under construction."
+                           Move "Job search/internship
+      -                         " is under construction." 
+                                 to output-message
+                               Perform WRITE-OUTPUT
                        Else
                            If Input-Record = "2"
-                               Display "Find someone you know is" 
-                                       "under construction."
+                               Move "Find someone you know is
+      -                             " under construction."
+                                    to output-message
+                               Perform WRITE-OUTPUT
                            Else
                                If Input-Record = "3"
                                    perform LEARN-SKILL
                                Else
                                    If Input-Record = "4"
-                                       Stop run
+                                       Close input-file
+                                       Close output-file
+                                       STOP RUN
+
                                    End-if
                                End-if
                            End-if
                        End-if
                End-read.
            LEARN-SKILL.
-                   Display "Learn a New Skill:"
-                   Display "Skill 1"
-                   Display "Skill 2"
-                   Display "Skill 3"
-                   Display "Skill 4"
-                   Display "Skill 5"
-                   Display "Go Back"
-                   Display "Enter your choice:"
+                   Move "Learn a New Skill:" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Skill 1" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Skill 2" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Skill 3" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Skill 4" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Skill 5" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Go Back" to output-message
+                   Perform WRITE-OUTPUT
+                   Move "Enter your choice:" to output-message
+                   Perform WRITE-OUTPUT
                    Read input-file
                        At end
-                           Display "End of input."
+                           Move "End of input." to output-message
+                           Perform WRITE-OUTPUT
                            Close input-file
+                           Close output-file
                            STOP RUN
                           Not at end
                             If Input-Record = "Skill 1"
-                                Display "Skill 1 is under construction."
+                                Move "Skill 1 is under construction." 
+                                to output-message
+                                Perform WRITE-OUTPUT
                             Else
                                 If Input-Record = "Skill 2"
-                                    Display "Skill 2 is under" 
-                                            "construction."
+                                    Move "Skill 2 is under 
+      -                                  " construction."
+                                    to output-message
+                                    Perform WRITE-OUTPUT
                                 Else
                                     If Input-Record = "Skill 3"
-                                        Display "Skill 3 is under" 
-                                                "construction."
+                                        Move "Skill 3 is under
+      -                                      " construction."
+                                        to output-message
+                                        Perform WRITE-OUTPUT
                                     Else
                                         If Input-Record = "Skill 4"
-                                            Display "Skill 4 is under" 
-                                                    "construction."
+                                            Move "Skill 4 is under 
+      -                                          " construction."
+                                            to output-message
+                                            Perform WRITE-OUTPUT
                                         Else
                                             If Input-Record = "Skill 5"
-                                                Display "Skill 5 is" 
-                                                "underconstruction."
+                                                Move "Skill 5 is 
+      -                                          " underconstruction."
+                                                to output-message
+                                                Perform WRITE-OUTPUT
                                             Else
                                                If Input-Record="Go Back"
                                                     Perform NAVIGATION
@@ -418,3 +522,9 @@
                                 End-if
                             End-if
                    End-Read.
+
+           WRITE-OUTPUT.
+               Display function Trim(output-message)
+               Move function Trim(output-message) to Output-Record
+               Write Output-Record.
+
