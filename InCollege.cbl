@@ -246,3 +246,52 @@
                    Move "N" to spec-flag
                    Perform CREATE-PASSWORD
                End-if.
+
+           COUNT-ACCOUNTS.
+      *        Count how many account exist in the system
+                Move 0 to user-num
+                Move "N" to end-of-file
+                Perform until end-of-file = "Y"
+                     Read user-file
+                          At end
+                            Move "Y" to end-of-file
+                          Not at end
+                            Add 1 to user-num
+                     End-read
+                End-perform
+                Close user-file.
+      *        Note: This is for limiting accounts to a max of 5 (Needs to be inplemented into Sara's code)
+               if Input-Record = "Create New Account"
+                     Perform COUNT-ACCOUNTS
+                     If user-num >=5
+                         Display "All permitted accounts have been created, please come back later."
+                     else
+                         Display "[Create New Account]"
+                         Perform CREATE-USERNAME
+                         Display username
+      
+      *                  Add username to user file
+                         Open extend user-file
+                         Move username to User-Record
+                         Write User-Record
+                         Close user-file
+                         
+                         Perform CREATE-PASSWORD
+                         Display password
+      
+      *                  Add password to password file
+                         Open extend pw-file
+                         Move password to PW-Record
+                         Write PW-Record
+                         Close pw-file
+                         Display "Your account has been created."
+                     End-if
+                End-if
+      *        Note: This is for the navigation menu (will be performed in sara's code)
+           NAVIGATION.
+               Display "Navigation Menu"
+               Display "1. Search for a job"
+               Display "2. Find someone you know"
+               Display "3. Learn a new skill"
+               Display "4. Return".      
+                         
