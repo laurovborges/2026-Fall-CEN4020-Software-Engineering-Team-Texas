@@ -6,7 +6,7 @@
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
 
   // Install GnuCOBOL (the standard open-source COBOL compiler) and build tools on startup
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y gnucobol build-essential",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends gnucobol build-essential",
 
   "customizations": {
     "vscode": {
@@ -41,5 +41,6 @@
     }
   },
 
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "waitFor": "postCreateCommand"
 }

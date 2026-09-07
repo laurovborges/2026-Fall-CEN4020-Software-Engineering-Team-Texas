@@ -84,6 +84,11 @@
                Not at end
       *            User creates a new account
                    If Input-Record = "Create New Account"
+                        Perform COUNT-ACCOUNTS
+                     If user-num >=5
+                         Display "All permitted accounts have been" 
+                         "created, please come back later."
+                     else
                        Display "[Create New Account]"
                        Perform CREATE-USERNAME
                        Display username
@@ -100,7 +105,8 @@
                        Write PW-Record
                        Close pw-file
                        Display "Your account has been created."
-                   End-if
+                     End-if
+                  End-if
 
       *            User logs in to existing account
                    If Input-Record = "Log In"
@@ -229,6 +235,9 @@
                        If password = PW-Record
                            Display password
                            Close pw-file
+      *                 Note: This is where the user can navigate to different parts of the program                    
+                           Display "You have successfully logged in."
+                           Perform NAVIGATION        
                        Else
                            Display "Incorrect password. "
                                    "Please try again."
@@ -300,7 +309,9 @@
 
            COUNT-ACCOUNTS.
       *        Count how many account exist in the system
+      *        Note: This is for limiting accounts
                 Move 0 to user-num
+                open input user-file
                 Move "N" to end-of-file
                 Perform until end-of-file = "Y"
                      Read user-file
@@ -311,38 +322,73 @@
                      End-read
                 End-perform
                 Close user-file.
-      *        Note: This is for limiting accounts to a max of 5 (Needs to be inplemented into Sara's code)
-               if Input-Record = "Create New Account"
-                     Perform COUNT-ACCOUNTS
-                     If user-num >=5
-                         Display "All permitted accounts have been created, please come back later."
-                     else
-                         Display "[Create New Account]"
-                         Perform CREATE-USERNAME
-                         Display username
-      
-      *                  Add username to user file
-                         Open extend user-file
-                         Move username to User-Record
-                         Write User-Record
-                         Close user-file
-                         
-                         Perform CREATE-PASSWORD
-                         Display password
-      
-      *                  Add password to password file
-                         Open extend pw-file
-                         Move password to PW-Record
-                         Write PW-Record
-                         Close pw-file
-                         Display "Your account has been created."
-                     End-if
-                End-if
-      *        Note: This is for the navigation menu (will be performed in sara's code)
+               
+      *        Note: This is for the navigation menu 
            NAVIGATION.
-               Display "Navigation Menu"
                Display "1. Search for a job"
                Display "2. Find someone you know"
                Display "3. Learn a new skill"
-               Display "4. Return".      
+               Display "4. Log Out"
+               Display "Enter your choice:"
+
+               Read input-file
+                   Not at end
+                       If Input-Record = "1"
+                           Display "Job search/internship" 
+                                   "is under construction."
+                       Else
+                           If Input-Record = "2"
+                               Display "Find someone you know is" 
+                                       "under construction."
+                           Else
+                               If Input-Record = "3"
+                                   perform LEARN-SKILL
+                               Else
+                                   If Input-Record = "4"
+                                       Stop run
+                                   End-if
+                               End-if
+                           End-if
+                       End-if
+               End-read.
+           LEARN-SKILL.
+                   Display "Learn a New Skill:"
+                   Display "Skill 1"
+                   Display "Skill 2"
+                   Display "Skill 3"
+                   Display "Skill 4"
+                   Display "Skill 5"
+                   Display "Go Back"
+                   Display "Enter your choice:"
+                   Read input-file
+                          Not at end
+                            If Input-Record = "Skill 1"
+                                Display "Skill 1 is under construction."
+                            Else
+                                If Input-Record = "Skill 2"
+                                    Display "Skill 2 is under" 
+                                            "construction."
+                                Else
+                                    If Input-Record = "Skill 3"
+                                        Display "Skill 3 is under" 
+                                                "construction."
+                                    Else
+                                        If Input-Record = "Skill 4"
+                                            Display "Skill 4 is under" 
+                                                    "construction."
+                                        Else
+                                            If Input-Record = "Skill 5"
+                                                Display "Skill 5 is" 
+                                                "underconstruction."
+                                            Else
+                                               If Input-Record="Go Back"
+                                                    Perform NAVIGATION
+                                               End-if
+                                            End-if
+                                        End-if
+                                    End-if
+                                End-if
+                            End-if
+                   End-Read.
+
                          
