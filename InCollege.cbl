@@ -55,6 +55,8 @@
        01 input-char pic 9(5).
        01 user-num pic 9(5).
 
+       01 pw-line pic 9(5).
+       01 curr-line pic 9(5).
       * The 3 character requirements for the password
        01 cap-flag pic X value "N".
        01 num-flag pic X value "N".
@@ -64,6 +66,9 @@
        01 unique-flag pic X value "Y".
       * Boolean to determine the end of file
        01 end-of-file pic X value "N".
+
+       01 temp-username pic X(100).
+
       * This is where you do the actual logic stuff.
        PROCEDURE DIVISION.
            Display "Welcome to InCollege!".
@@ -101,10 +106,7 @@
                    If Input-Record = "Log In"
                        Display "[Log In]"
                        Perform ENTER-USERNAME
-                       Display username
                        Perform ENTER-PASSWORD
-                       Display password
-                       Display "You have successfully logged in."
                    End-if
                End-read.
 
@@ -113,32 +115,39 @@
            STOP RUN.
 
            CREATE-USERNAME.
-               Read input-file
+               Move "N" to unique-flag
+               Perform until unique-flag = "Y"
+                   Read input-file
+                   At end
+                       Move "Y" to unique-flag
                    Not at end
                        Display "Please create a username:"
+                       Move Input-Record to temp-username
+                       Move "Y" to unique-flag
       *                Make sure username is unique
                        Open input check-user-file
                        Move "N" to end-of-file
                        Perform until end-of-file = "Y"
                            Read check-user-file
-                               At end
-                                   Move "Y" to end-of-file
-                               Not at end
-                                   If Input-Record = Check-User-Record
-                                       Move "N" to unique-flag
-                                   End-if
-                            End-read
-                       End-perform
-                       Close check-user-file
+                           At end
+                               Move "Y" to end-of-file
+                           Not at end
+                               If temp-username = Check-User-Record
+                               Move "N" to unique-flag
+                           End-if
+                           End-read
+                            End-perform
+                           Close check-user-file
+                      
 
-                       If unique-flag = "Y"
-                           Move Input-Record to username
-                           Move "N" to unique-flag
-                       else
-                           Display "That username is already taken."
-                           Perform CREATE-USERNAME
-                       End-if
-               End-read.
+               If unique-flag = "Y"
+                  Move temp-username to username
+               Else
+                   Display "That username is already taken."
+                   Move "N" to unique-flag
+               End-if
+               End-read
+               End-perform.
 
            CREATE-PASSWORD.
                Read input-file
@@ -174,16 +183,58 @@
                Read input-file
                    Not at end
                        Display "Please enter your username:"
-      *                If username exists in the system
                        Move Input-Record to username
+      *                If username exists in the system
+                       Move "N" to end-of-file
+                       Move 0 to pw-line
+                       Open input user-file
+                       Perform until end-of-file = "Y"
+                           Read user-file
+                               At end
+                                   Move "Y" to end-of-file
+                               Not at end
+                                   Add 1 to pw-line
+                                   If username = User-Record
+                                       Display username
+                                       Exit perform
+                                   End-if
+                            End-read
+                        End-perform
+                        Close user-file
+                        If end-of-file = "Y"
+                           Display username
+                           Display "Incorrect username. "
+                                   "Please try again."
+                           Perform ENTER-USERNAME
+                        End-if
                End-read.
 
            ENTER-PASSWORD.
                Read input-file
                    Not at end
                        Display "Please enter your password:"
-      *                If password exists in the system
                        Move Input-Record to password
+
+      *                If password exists in the system
+                       Move "N" to end-of-file
+                       Move 0 to curr-line
+                       Open input pw-file
+                       Perform until curr-line = pw-line
+                           Read pw-file
+                               Not at end
+                                   Add 1 to curr-line
+                           End-read
+                       End-perform
+                       Display PW-Record
+                       If password = PW-Record
+                           Display password
+                           Close pw-file
+                       Else
+                           Display "Incorrect password. "
+                                   "Please try again."
+                           Close pw-file
+                           Perform ENTER-PASSWORD
+                       End-if
                End-read.
 
            PASSWORD-CHECKS.
