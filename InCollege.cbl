@@ -81,6 +81,10 @@
       *     Note: Read must happen once for each line in the file
       *     Note: This read is the main function
            Read input-file
+               At end
+                   Display "End of input."
+                   Close input-file
+                   STOP RUN
                Not at end
       *            User creates a new account
                    If Input-Record = "Create New Account"
@@ -112,6 +116,7 @@
                    If Input-Record = "Log In"
                        Display "[Log In]"
                        Perform ENTER-USERNAME
+                       Move 0 to curr-line
                        Perform ENTER-PASSWORD
                    End-if
                End-read.
@@ -125,7 +130,9 @@
                Perform until unique-flag = "Y"
                    Read input-file
                    At end
-                       Move "Y" to unique-flag
+                       Display "End of input."
+                       Close input-file
+                       STOP RUN
                    Not at end
                        Display "Please create a username:"
                        Move Input-Record to temp-username
@@ -157,6 +164,10 @@
 
            CREATE-PASSWORD.
                Read input-file
+                   At end
+                       Display "End of input."
+                       Close input-file
+                       STOP RUN
                    Not at end
                        Display "Please create a password:"
       *                Reset the flags for character requirements
@@ -180,6 +191,7 @@
                                Perform CREATE-PASSWORD
       *                    Check the char reqs if the length is right
                            When OTHER
+                               Display "moving on"
       *                        Password is created in this paragraph
                                Perform PASSWORD-CHECKS                        
                        End-evaluate
@@ -187,6 +199,10 @@
 
            ENTER-USERNAME.
                Read input-file
+                   At end
+                       Display "End of input."
+                       Close input-file
+                       STOP RUN
                    Not at end
                        Display "Please enter your username:"
                        Move Input-Record to username
@@ -217,13 +233,17 @@
 
            ENTER-PASSWORD.
                Read input-file
+                   At end
+                       Display "End of input."
+                       Close input-file
+                       
+                       STOP RUN
                    Not at end
                        Display "Please enter your password:"
                        Move Input-Record to password
 
       *                If password exists in the system
                        Move "N" to end-of-file
-                       Move 0 to curr-line
                        Open input pw-file
                        Perform until curr-line = pw-line
                            Read pw-file
@@ -231,12 +251,12 @@
                                    Add 1 to curr-line
                            End-read
                        End-perform
-                       Display PW-Record
+                       Display password
                        If password = PW-Record
-                           Display password
                            Close pw-file
       *                 Note: This is where the user can navigate to different parts of the program                    
                            Display "You have successfully logged in."
+                           Display "Welcome " username "!"
                            Perform NAVIGATION        
                        Else
                            Display "Incorrect password. "
@@ -277,7 +297,7 @@
                    Display "Your password must contain "
                            "at least 1 digit."
                    Perform CREATE-PASSWORD
-               End-if.
+               End-if
 
       *        Check for a special character
                Perform varying input-char from 1 by 1
@@ -332,6 +352,10 @@
                Display "Enter your choice:"
 
                Read input-file
+                   At end
+                       Display "End of input."
+                       Close input-file
+                       STOP RUN
                    Not at end
                        If Input-Record = "1"
                            Display "Job search/internship" 
@@ -361,6 +385,10 @@
                    Display "Go Back"
                    Display "Enter your choice:"
                    Read input-file
+                       At end
+                           Display "End of input."
+                           Close input-file
+                           STOP RUN
                           Not at end
                             If Input-Record = "Skill 1"
                                 Display "Skill 1 is under construction."
@@ -390,5 +418,3 @@
                                 End-if
                             End-if
                    End-Read.
-
-                         
