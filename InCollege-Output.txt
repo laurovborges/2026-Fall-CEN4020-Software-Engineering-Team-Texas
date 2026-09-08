@@ -2,11 +2,13 @@ Welcome to InCollege!
 Log In
 Create New Account
 Enter your choice:
-[Create New Account]
-Please create a username:
-That username is already taken.
-Please create a username:
-That username is already taken.
-Please create a username:
-testingtesting123
+[Log In]
+Please enter your username:
+abBCDacdefgh123!
+Incorrect username. Please try again.
+Please enter your username:
+helloworld
+Please enter your password:
+testingtesti
+Incorrect password. Please try again.
 End of input.
