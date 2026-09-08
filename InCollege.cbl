@@ -186,6 +186,16 @@
                       
 
                If unique-flag = "Y"
+      *            Make sure username doesn't contain spaces
+                   Perform varying input-char from 1 by 1
+                       If Input-Record(input-char:1) = Space
+                           Move "Your username must not contain spaces."
+                           to output-message
+                           Perform WRITE-OUTPUT
+                           Move "N" to unique-flag
+                       End-if
+                   End-perform
+               If unique-flag = "Y"
                   Move temp-username to username
                Else
                   Move "That username is already taken." 
