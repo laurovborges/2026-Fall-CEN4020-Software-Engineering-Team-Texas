@@ -110,8 +110,8 @@
                    If Input-Record = "Create New Account"
                         Perform COUNT-ACCOUNTS
                      If user-num >=5
-                         Move "All permitted accounts have been 
-      -                   " created, please come back later." 
+                         Move "All permitted accounts have been created,
+      -                       " please come back later." 
                          to output-message
                          Perform WRITE-OUTPUT
                      else
@@ -220,8 +220,8 @@
                                Move Input-Record(1:100) 
                                to output-message
                                Perform WRITE-OUTPUT
-                               Move "Your password must contain
-      -                               " at least 8 characters."
+                               Move "Your password must contain at least
+      -                             "8 characters."
                                       to output-message
                                       Perform WRITE-OUTPUT
       *                        If pw is invalid, run this code again
@@ -230,15 +230,13 @@
                                Move Input-Record(1:100) 
                                to output-message
                                Perform WRITE-OUTPUT
-                               Move "Your password must contain
-      -                                 " no more than 12 characters."
+                               Move "Your password must contain no more
+      -                             "than 12 characters."
                                        to output-message
                                        Perform WRITE-OUTPUT
                                Perform CREATE-PASSWORD
       *                    Check the char reqs if the length is right
                            When OTHER
-                               Move "moving on" to output-message
-                               Perform WRITE-OUTPUT
       *                        Password is created in this paragraph
                                Perform PASSWORD-CHECKS                        
                        End-evaluate
@@ -278,8 +276,8 @@
                         If end-of-file = "Y"
                            Move username to output-message
                            Perform WRITE-OUTPUT
-                           Move "Incorrect username.
-      -                          " Please try again." to output-message
+                           Move "Incorrect username. Please try again."
+      -                         to output-message
                            Perform WRITE-OUTPUT
                            Perform ENTER-USERNAME
                         End-if
@@ -326,8 +324,8 @@
                            Perform WRITE-OUTPUT
                            Perform NAVIGATION        
                        Else
-                           Move "Incorrect password.
-      -                           " Please try again." to output-message
+                           Move "Incorrect password. Please try again."
+                               to output-message
                            Perform WRITE-OUTPUT
                            Close pw-file
                            Perform ENTER-PASSWORD
@@ -346,8 +344,8 @@
                            End-if
                End-perform
                If cap-flag = "N"
-                   Move "Your password must contain
-      -                   " at least 1 capital letter." 
+                    Move "Your password must contain at least 1 capital
+      -                  "letter." 
                            to output-message
                    Perform WRITE-OUTPUT
                Perform CREATE-PASSWORD
@@ -362,8 +360,8 @@
                            End-if
                End-perform
                If num-flag = "N"
-                   Move "Your password must contain
-      -                  " at least 1 digit." to output-message
+                   Move "Your password must contain at least 1 digit."
+                   to output-message
                    Perform WRITE-OUTPUT
                    Perform CREATE-PASSWORD
                End-if
@@ -378,9 +376,9 @@
                          End-if
                End-perform
                If spec-flag = "N"
-                   Move "Your password must contain
-      -                   " at least 1 special character."
-                           to output-message
+                    Move "Your password must contain at least 1 special
+      -                  "character."                   
+                       to output-message
                    Perform WRITE-OUTPUT
                    Perform CREATE-PASSWORD
                End-if
@@ -435,14 +433,14 @@
                        STOP RUN
                    Not at end
                        If Input-Record = "1"
-                           Move "Job search/internship
-      -                         " is under construction." 
+                           Move "Job search/internship is under construc
+      -                         "tion." 
                                  to output-message
                                Perform WRITE-OUTPUT
                        Else
                            If Input-Record = "2"
-                               Move "Find someone you know is
-      -                             " under construction."
+                               Move "Find someone you know is under cons
+      -                             "truction."
                                     to output-message
                                Perform WRITE-OUTPUT
                            Else
@@ -490,26 +488,25 @@
                                 Perform WRITE-OUTPUT
                             Else
                                 If Input-Record = "Skill 2"
-                                    Move "Skill 2 is under 
-      -                                  " construction."
+                                   Move "Skill 2 is under construction."
                                     to output-message
                                     Perform WRITE-OUTPUT
                                 Else
                                     If Input-Record = "Skill 3"
-                                        Move "Skill 3 is under
-      -                                      " construction."
+                                        Move "Skill 3 is under construct
+      -                                      "ion."
                                         to output-message
                                         Perform WRITE-OUTPUT
                                     Else
                                         If Input-Record = "Skill 4"
-                                            Move "Skill 4 is under 
-      -                                          " construction."
+                                            Move "Skill 4 is under const
+      -                                          "ruction."
                                             to output-message
                                             Perform WRITE-OUTPUT
                                         Else
                                             If Input-Record = "Skill 5"
-                                                Move "Skill 5 is 
-      -                                          " underconstruction."
+                                                Move "Skill 5 is under c
+      -                                              "onstruction."
                                                 to output-message
                                                 Perform WRITE-OUTPUT
                                             Else
