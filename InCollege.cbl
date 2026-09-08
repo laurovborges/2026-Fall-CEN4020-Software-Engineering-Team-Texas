@@ -62,6 +62,7 @@
        01 output-message pic X(1000).
        01 input-char pic 9(5).
        01 user-num pic 9(5).
+       01 user-length pic 9(5).
 
        01 pw-line pic 9(5).
        01 curr-line pic 9(5).
@@ -118,8 +119,6 @@
                        Move "[Create New Account]" to output-message
                        Perform WRITE-OUTPUT
                        Perform CREATE-USERNAME
-                       Move username to output-message
-                       Perform WRITE-OUTPUT
       *                Add username to user file
                        Open extend user-file
                        Move username to User-Record
@@ -183,12 +182,30 @@
                            End-read
                             End-perform
                            Close check-user-file
-                      
+                           
+      *        Display username even if not valid
+               Move temp-username to output-message
+               Perform WRITE-OUTPUT
 
+               If unique-flag = "N"
+                  Move "That username is already taken." 
+                  to output-message
+                  Perform WRITE-OUTPUT
+               End-if
+               
                If unique-flag = "Y"
+                   If temp-username = Space
+                       Move "Your username must not be blank."
+                       to output-message
+                       Perform WRITE-OUTPUT
+                       Move "N" to unique-flag
+                   End-if
       *            Make sure username doesn't contain spaces
+                     Compute user-length = Function Length(Function Trim
+      -                                    (temp-username))
                    Perform varying input-char from 1 by 1
-                       If Input-Record(input-char:1) = Space
+                   Until input-char > user-length
+                       If temp-username(input-char:1) = Space
                            Move "Your username must not contain spaces."
                            to output-message
                            Perform WRITE-OUTPUT
@@ -197,11 +214,6 @@
                    End-perform
                If unique-flag = "Y"
                   Move temp-username to username
-               Else
-                  Move "That username is already taken." 
-                  to output-message
-                  Perform WRITE-OUTPUT
-                  Move "N" to unique-flag
                End-if
                End-read
                End-perform.
