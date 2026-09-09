@@ -5,9 +5,10 @@ Enter your choice:
 [Create New Account]
 Please create a username:
 helloworld1
-Please create a password:
+That username is already taken.
+Please create a username:
 hi
-Your password must contain at least 8 characters.
-Please create a password:
-test It1!@
-Your password must contain at least 1 capital letter.
+That username is already taken.
+Please create a username:
+1!St It1!@
+Your username must not contain spaces.
