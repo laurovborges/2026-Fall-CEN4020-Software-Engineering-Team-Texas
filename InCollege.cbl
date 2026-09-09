@@ -63,6 +63,7 @@
        01 input-char pic 9(5).
        01 user-num pic 9(5).
        01 user-length pic 9(5).
+       01 pw-length pic 9(5).
 
        01 pw-line pic 9(5).
        01 curr-line pic 9(5).
@@ -70,6 +71,9 @@
        01 cap-flag pic X value "N".
        01 num-flag pic X value "N".
        01 spec-flag pic X value "N".
+
+      * Check for spaces in password
+       01 space-flag pic X value "N".
 
       * Is username unique or not
        01 unique-flag pic X value "Y".
@@ -344,6 +348,24 @@
            PASSWORD-CHECKS.
       *        Note: "Perform varying" is like a for-loop
       *        Check for a capital letter
+               Move "N" to space-flag
+               Compute pw-length = Function Length(Function Trim
+      -                                           (Input-Record))
+               Perform varying input-char from 1 by 1
+                   Until input-char > pw-length
+                   If Input-Record(input-char:1) = Space
+                       Move "Y" to space-flag
+                       Exit perform
+                   End-if
+               End-perform
+
+               If space-flag = "Y"
+                   Move "Your password must not contain spaces"
+      -            to output-message
+                   Perform WRITE-OUTPUT
+                   Perform CREATE-PASSWORD
+               Else
+               
                Perform varying input-char from 1 by 1
                    Until Input-Record(input-char:1) = Space
                       OR cap-flag = "Y"
