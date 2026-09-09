@@ -1,42 +1,35 @@
-# CEN4020-repo
+# 2026-Fall-CEN4020-Software-Engineering-Team-Texas repo
 
-COBOL project environment for Software Engineering (CEN4020).
+Open the repo in WSL, then open the dev container.
 
-## Setup: open in a dev container
-
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it.
-2. In VS Code, install the **Dev Containers** extension (`ms-vscode-remote.remote-containers`).
-3. Press `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux) and run **Dev Containers: Reopen in Container**.
-
-The first build takes about 3–5 minutes: VS Code pulls an Ubuntu 22.04 image, installs GnuCOBOL and build tools, and sets up the COBOL extensions. Reopening later takes seconds.
-
-You'll know it worked when the bottom-left corner of VS Code shows **Dev Container: Software Engineering - COBOL Project Environment**. Verify the compiler with:
-
+## How to compile and run:
 ```sh
-cobc --version
+cobc -x -o InCollege InCollege.cbl
+./InCollege
 ```
 
-To return to your local machine: `Cmd+Shift+P` → **Dev Containers: Reopen Folder Locally**.
-
-## Compile and run
-
-### Option 1: the ▷ Run button
-
-Open a `.cbl` file (e.g. `HelloWorld.cbl`) and click the **▷ Run Code** button in the editor's top-right corner. The Code Runner extension (installed automatically by the dev container) compiles the file with GnuCOBOL and runs the executable in the terminal.
-
-### Option 2: the terminal
-
-In the dev container terminal (`` Ctrl+` ``):
-
+The input file is called "InCollege-Input.txt".
+Each input should be on a new line.
+If a choice is offered, the exact prompt option must be written to mark it as chosen.
+For example, line 1 must contain either "Create New Account" or "Log In".
+## Sample input:
 ```sh
-cobc -x -o HelloWorld HelloWorld.cbl
-./HelloWorld
+Create New Account
+MyUsername
+MyPassword1!
 ```
 
-Expected output (either way):
-
+The output file is called "InCollege-Output.txt".
+The output file will contain predefined text prompts as well as the inputs from the input file.
+## Sample output:
+```sh
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+[Create New Account]
+Please create a username:
+MyUsername
+Please create a password:
+MyPassword1!
 ```
-Hello, World!
-```
-
-The `-x` flag produces an executable. Without it, `cobc` builds a shared module (`.so`) that cannot be run directly.
