@@ -360,7 +360,7 @@
                End-perform
 
                If space-flag = "Y"
-                   Move "Your password must not contain spaces"
+                   Move "Your password must not contain spaces."
       -            to output-message
                    Perform WRITE-OUTPUT
                    Perform CREATE-PASSWORD
