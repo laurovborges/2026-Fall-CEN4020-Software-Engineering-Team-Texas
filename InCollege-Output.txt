@@ -4,17 +4,10 @@ Create New Account
 Enter your choice:
 [Create New Account]
 Please create a username:
-abBCDacdefgh123!~#
-That username is already taken.
-Please create a username:
-a a
-Your username must not contain spaces.
-Please create a username:
-
-Your username must not be blank.
-Please create a username:
-helloworld
-That username is already taken.
-Please create a username:
-testIngst1@
-End of input.
+helloworld1
+Please create a password:
+hi
+Your password must contain at least 8 characters.
+Please create a password:
+test It1!@
+Your password must contain at least 1 capital letter.

@@ -101,8 +101,6 @@
       *     Note: This read is the main function
            Read input-file
                At end
-                   Move "End of input." to output-message
-                   Perform WRITE-OUTPUT    
                    Close input-file
                    Close output-file
                    STOP RUN
@@ -125,8 +123,6 @@
                        Write User-Record
                        Close user-file
                        Perform CREATE-PASSWORD
-                       Move password to output-message
-                       Perform WRITE-OUTPUT
       *                Add password to password file
                        Open extend pw-file
                        Move password to PW-Record
@@ -158,8 +154,6 @@
                Perform until unique-flag = "Y"
                    Read input-file
                    At end
-                       Move "End of input." to output-message
-                       Perform WRITE-OUTPUT
                        Close input-file
                        Close output-file
                        STOP RUN
@@ -221,8 +215,6 @@
            CREATE-PASSWORD.
                Read input-file
                    At end
-                       Move "End of input." to output-message
-                       Perform WRITE-OUTPUT
                        Close input-file
                        Close output-file
                        STOP RUN
@@ -230,6 +222,9 @@
                        Move "Please create a password:" 
                        to output-message
                        Perform WRITE-OUTPUT
+					   Move Input-Record(1:100)
+					   to output-message
+					   Perform WRITE-OUTPUT
       *                Reset the flags for character requirements
                        Move "N" to cap-flag
                        Move "N" to num-flag
@@ -239,19 +234,13 @@
                        Evaluate TRUE
       *                    Note: (8:1) refers to the 8th character.
                            When Input-Record(8:1) = Space
-                               Move Input-Record(1:100) 
-                               to output-message
-                               Perform WRITE-OUTPUT
                                Move "Your password must contain at least
-      -                             "8 characters."
+      -                             " 8 characters."
                                       to output-message
                                       Perform WRITE-OUTPUT
       *                        If pw is invalid, run this code again
                                Perform CREATE-PASSWORD
                            When Input-Record(13:1) NOT = Space
-                               Move Input-Record(1:100) 
-                               to output-message
-                               Perform WRITE-OUTPUT
                                Move "Your password must contain no more
       -                             "than 12 characters."
                                        to output-message
@@ -267,8 +256,6 @@
            ENTER-USERNAME.
                Read input-file
                    At end
-                       Move "End of input." to output-message
-                       Perform WRITE-OUTPUT
                        Close input-file
                        Close output-file
                        STOP RUN
@@ -308,8 +295,6 @@
            ENTER-PASSWORD.
                Read input-file
                    At end
-                       Move "End of input." to output-message
-                       Perform WRITE-OUTPUT
                        Close input-file
                        Close output-file
                        STOP RUN
@@ -318,6 +303,9 @@
                        to output-message
                        Perform WRITE-OUTPUT
                        Move Input-Record to password
+					   Move password
+					   to output-message
+					   Perform WRITE-OUTPUT
 
       *                If password exists in the system
                        Move "N" to end-of-file
@@ -328,8 +316,7 @@
                                    Add 1 to curr-line
                            End-read
                        End-perform
-                       Move password to output-message
-                       Perform WRITE-OUTPUT
+                       
                        If password = PW-Record
                            Close pw-file
       *                 Note: This is where the user can navigate to different parts of the program                    
@@ -448,8 +435,6 @@
 
                Read input-file
                    At end
-                       Move "End of input." to output-message
-                          Perform WRITE-OUTPUT
                        Close input-file
                        Close output-file
                        STOP RUN
@@ -498,8 +483,6 @@
                    Perform WRITE-OUTPUT
                    Read input-file
                        At end
-                           Move "End of input." to output-message
-                           Perform WRITE-OUTPUT
                            Close input-file
                            Close output-file
                            STOP RUN
