@@ -2,15 +2,55 @@ Welcome to InCollege!
 Log In
 Create New Account
 Enter your choice:
+Create New Account
 [Create New Account]
 Please create a username:
-swag_haver_123
+Ninajirachi
 Please create a password:
 1!Hey you
 Your password must not contain spaces.
 Please create a password:
 abBCDacdefgh123!~#
-Your password must contain no mthan 12 characters.
+Your password must contain no more than 12 characters.
 Please create a password:
 Banana123!
 Your account has been created.
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+1
+--- Create/Edit Profile ---
+Enter First Name:
+Nina
+Enter Last Name:
+Wilson
+Enter University/College Attended:
+USF
+Enter Major:
+Comp Sci
+Enter Graduation Year (YYYY):
+2026
+Enter About Me (optional; blank skips):
+hello this is a very detailed about me section
+Profile saved successfully!
+Return to main menu? (Y/N)
+Y
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+2
+--- Your Profile ---
+Name: Nina Wilson
+University: USF
+Major: Comp Sci
+Graduation Year: 2026
+About Me: hello this is a very detailed about me section
+Return to main menu? (Y/N)

@@ -27,7 +27,10 @@
                Organization is line sequential.
            Select account-file
                Assign to "InCollege-Accounts.txt"
-               Organization is line sequential.  
+               Organization is line sequential.
+           Select profile-file
+               Assign to "InCollege-Profiles.txt"
+               Organization is line sequential.
       * Used for initializing variables.
        DATA DIVISION.
       * Note: File section must go before working-storage section.
@@ -42,13 +45,29 @@
 
        FD account-file.
        01 Account-Record pic X(1000).
+
+         FD profile-file.
+         01 Profile-Record pic X(1000).
       * Variables unrelated to files
        Working-Storage Section.
        01 username pic X(100).
        01 password pic X(12).
-             01 Account-Username pic X(100).
-             01 Account-Password pic X(12).
-         01 stored-password pic X(12).
+       01 Account-Username pic X(100).
+       01 Account-Password pic X(12).
+       01 First-Name pic A(50).
+       01 Last-Name pic A(50).
+       01 College-Name pic A(100).
+       01 College-Major pic A(50).
+       01 Graduation-Year pic 9(4).
+       01 About-Me pic X(1000).
+       01 stored-password pic X(12).
+         01 Profile-Username pic X(100).
+         01 Profile-Year-Input pic X(100).
+         01 Profile-Found pic X value "N".
+         01 Profile-Input-Length pic 9(5).
+         01 Profile-Year-Length pic 9(5).
+         01 Profile-Saved pic X value "N".
+        01 New-Profile-Record pic X(1000).
 
        01 output-message pic X(1000).
        01 input-char pic 9(5).
@@ -101,6 +120,7 @@
                    Close output-file
                    STOP RUN
                Not at end
+                   Perform ECHO-INPUT
       *            User creates a new account
                    If Input-Record = "Create New Account"
                         Perform COUNT-ACCOUNTS
@@ -127,6 +147,7 @@
                        Move "Your account has been created." 
                        to output-message
                        Perform WRITE-OUTPUT
+                       Perform NAVIGATION
                      End-if
                   End-if
 
@@ -237,8 +258,8 @@
                                Perform WRITE-OUTPUT
                            Else
                                If pw-length > 12
-                                   Move "Your password must contain no more
-      -                                "than 12 characters."
+                                   Move "Your password must contain no m
+      -                                "ore than 12 characters."
                                        to output-message
                                    Perform WRITE-OUTPUT
                                Else
@@ -260,6 +281,7 @@
                            Move "Please enter your username:"
                                to output-message
                            Perform WRITE-OUTPUT
+                           Perform ECHO-INPUT
                            Move Input-Record(1:100) to username
                            Move "N" to end-of-file
                            Open input account-file
@@ -413,13 +435,17 @@
                
       *        Note: This is for the navigation menu 
            NAVIGATION.
-               Move "1. Search for a job" to output-message
+               Move "1. Create/Edit My Profile" to output-message
                 Perform WRITE-OUTPUT
-               Move "2. Find someone you know" to output-message
+               Move "2. View My Profile" to output-message
                 Perform WRITE-OUTPUT
-               Move "3. Learn a new skill" to output-message
+               Move "3. Search for a job" to output-message
                 Perform WRITE-OUTPUT
-               Move "4. Log Out" to output-message
+               Move "4. Find someone you know" to output-message
+                Perform WRITE-OUTPUT
+               Move "5. Learn a new skill" to output-message
+                Perform WRITE-OUTPUT
+               Move "6. Log Out" to output-message
                 Perform WRITE-OUTPUT
                Move "Enter your choice:" to output-message
                 Perform WRITE-OUTPUT
@@ -430,20 +456,31 @@
                        Close output-file
                        STOP RUN
                    Not at end
+                       Perform ECHO-INPUT
                        Evaluate Input-Record
                            When "1"
+                               Move "--- Create/Edit Profile ---"
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                               Perform CREATE-PROFILE
+                           When "2"
+                               Move "--- Your Profile ---"
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                               Perform VIEW-PROFILE
+                           When "3"
                                Move "Job search/internship is under
       -                            "construction."
                                    to output-message
                                Perform WRITE-OUTPUT
-                           When "2"
+                           When "4"
                                Move "Find someone you know is under
       -                            "construction."
                                    to output-message
                                Perform WRITE-OUTPUT
-                           When "3"
+                           When "5"
                                Perform LEARN-SKILL
-                           When "4"
+                           When "6"
                                Close input-file
                                Close output-file
                                STOP RUN
@@ -475,6 +512,7 @@
                            Close output-file
                            STOP RUN
                           Not at end
+                                     Perform ECHO-INPUT
                             Evaluate Input-Record
                                 When "Skill 1"
                                     Move "Skill 1 is under
@@ -509,6 +547,287 @@
                                     Perform WRITE-OUTPUT
                             End-evaluate
                    End-Read.
+
+           CREATE-PROFILE.
+               Move Space to First-Name
+               Perform until First-Name NOT = Space
+                   Move "Enter First Name:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Move Input-Record(1:50) to First-Name
+                   End-read
+                   If First-Name = Space
+                       Move "First Name is required." to output-message
+                       Perform WRITE-OUTPUT
+                   End-if
+               End-perform
+
+               Move Space to Last-Name
+               Perform until Last-Name NOT = Space
+                   Move "Enter Last Name:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Move Input-Record(1:50) to Last-Name
+                   End-read
+                   If Last-Name = Space
+                       Move "Last Name is required." to output-message
+                       Perform WRITE-OUTPUT
+                   End-if
+               End-perform
+
+               Move Space to College-Name
+               Perform until College-Name NOT = Space
+                   Move "Enter University/College Attended:"
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Move Input-Record(1:100) to College-Name
+                   End-read
+                   If College-Name = Space
+                       Move "University/College is required."
+                           to output-message
+                       Perform WRITE-OUTPUT
+                   End-if
+               End-perform
+
+               Move Space to College-Major
+               Perform until College-Major NOT = Space
+                   Move "Enter Major:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Move Input-Record(1:50) to College-Major
+                   End-read
+                   If College-Major = Space
+                       Move "Major is required." to output-message
+                       Perform WRITE-OUTPUT
+                   End-if
+               End-perform
+
+               Move "N" to Profile-Saved
+               Perform until Profile-Saved = "Y"
+                   Move "Enter Graduation Year (YYYY):"
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Move Input-Record(1:100)
+                               to Profile-Year-Input
+                           Compute Profile-Year-Length = Function Length
+                               (Function Trim(Profile-Year-Input))
+                           If Profile-Year-Length = 4
+                           And Profile-Year-Input(1:4) IS NUMERIC
+                               Move Profile-Year-Input(1:4)
+                                   to Graduation-Year
+                               If Graduation-Year > 2025
+                               And Graduation-Year < 2034
+                                   Move "Y" to Profile-Saved
+                               Else
+                                   Move "Graduation Year must be between
+      -                                "2026 and 2033."
+                                       to output-message
+                                   Perform WRITE-OUTPUT
+                               End-if
+                           Else
+                               Move "Graduation Year must be a valid
+      -                            "4-digit year."
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                           End-if
+                   End-read
+               End-perform
+
+               Move 201 to Profile-Input-Length
+               Perform until Profile-Input-Length <= 200
+                   Move "Enter About Me (optional; blank skips):"
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           Compute Profile-Input-Length = Function
+                               Length (Function Trim(Input-Record))
+                           If Profile-Input-Length > 200
+                               Move "About Me must be 200 characters or
+      -                            "less."
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                           Else
+                               Move Input-Record(1:200) to About-Me
+                           End-if
+                   End-read
+               End-perform
+
+               Initialize New-Profile-Record
+               String
+                   Function Trim(username) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(First-Name) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Last-Name) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(College-Name) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(College-Major) Delimited by Size
+                   "|" Delimited by Size
+                   Graduation-Year Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(About-Me) Delimited by Size
+                   Into New-Profile-Record
+               End-String
+
+               Move "N" to Profile-Found
+               Move "N" to end-of-file
+               Open input profile-file
+               Perform until end-of-file = "Y"
+                   Read profile-file
+                       At end
+                           Move "Y" to end-of-file
+                       Not at end
+                           Unstring Profile-Record
+                               Delimited by "|"
+                               Into Profile-Username
+                                    First-Name
+                                    Last-Name
+                                    College-Name
+                                    College-Major
+                                    Graduation-Year
+                                    About-Me
+                           End-Unstring
+                           If Profile-Username = username
+                               Move "Y" to Profile-Found
+                           End-if
+                   End-read
+               End-perform
+               Close profile-file
+               Open extend profile-file
+               Move New-Profile-Record to Profile-Record
+               Write Profile-Record
+               Close profile-file
+
+               Move "Profile saved successfully!" to output-message
+               Perform WRITE-OUTPUT
+               Perform RETURN-TO-MENU.
+
+           VIEW-PROFILE.
+               Move "N" to Profile-Found
+               Move "N" to end-of-file
+               Open input profile-file
+               Perform until end-of-file = "Y"
+                   Read profile-file
+                       At end
+                           Move "Y" to end-of-file
+                       Not at end
+                           Unstring Profile-Record
+                               Delimited by "|"
+                               Into Profile-Username
+                                    First-Name
+                                    Last-Name
+                                    College-Name
+                                    College-Major
+                                    Graduation-Year
+                                    About-Me
+                           End-Unstring
+                           If Profile-Username = username
+                               Move "Y" to Profile-Found
+                           End-if
+                   End-read
+               End-perform
+               Close profile-file
+               If Profile-Found = "N"
+                   Move "Profile not created." to output-message
+                   Perform WRITE-OUTPUT
+               Else
+                   Initialize output-message
+                   String
+                       "Name: " Delimited by Size
+                       Function Trim(First-Name) Delimited by Size
+                       Space Delimited by Size
+                       Function Trim(Last-Name) Delimited by Size
+                       Into output-message
+                   End-String
+                   Perform WRITE-OUTPUT
+                   Initialize output-message
+                   String
+                       "University: " Delimited by Size
+                       Function Trim(College-Name) Delimited by Size
+                       Into output-message
+                   End-String
+                   Perform WRITE-OUTPUT
+                   Initialize output-message
+                   String
+                       "Major: " Delimited by Size
+                       Function Trim(College-Major) Delimited by Size
+                       Into output-message
+                   End-String
+                   Perform WRITE-OUTPUT
+                   Initialize output-message
+                   String
+                       "Graduation Year: " Delimited by Size
+                       Graduation-Year Delimited by Size
+                       Into output-message
+                   End-String
+                   Perform WRITE-OUTPUT
+                   Initialize output-message
+                   String
+                       "About Me: " Delimited by Size
+                       Function Trim(About-Me) Delimited by Size
+                       Into output-message
+                   End-String
+                   Perform WRITE-OUTPUT
+               End-if
+               Perform RETURN-TO-MENU.
+
+           RETURN-TO-MENU.
+               Move "Return to main menu? (Y/N)" to output-message
+               Perform WRITE-OUTPUT
+               Read input-file
+                   At end
+                       Close input-file
+                       Close output-file
+                       STOP RUN
+                   Not at end
+                       Perform ECHO-INPUT
+                       If Input-Record = "Y" or Input-Record = "y"
+                           Perform NAVIGATION
+                       End-if
+               End-read.
+
+           ECHO-INPUT.
+               Move Input-Record to output-message
+               Perform WRITE-OUTPUT.
 
            WRITE-OUTPUT.
                Display function Trim(output-message)
