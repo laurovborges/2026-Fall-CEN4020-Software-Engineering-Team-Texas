@@ -41,13 +41,13 @@
        01 Output-Record pic X(1000).
 
        FD account-file.
-       01 Account-Record.
-           05 Account-Username pic X(100).
-           05 Account-Password pic X(12).
+       01 Account-Record pic X(1000).
       * Variables unrelated to files
        Working-Storage Section.
        01 username pic X(100).
        01 password pic X(12).
+             01 Account-Username pic X(100).
+             01 Account-Password pic X(12).
          01 stored-password pic X(12).
 
        01 output-message pic X(1000).
@@ -115,8 +115,13 @@
                        Perform CREATE-USERNAME
                        Perform CREATE-PASSWORD
                      Open extend account-file
-                     Move username to Account-Username
-                     Move password to Account-Password
+                     Initialize Account-Record
+                     String
+                         Function Trim(username) Delimited by Size
+                         "|" Delimited by Size
+                         Function Trim(password) Delimited by Size
+                         Into Account-Record
+                     End-String
                      Write Account-Record
                      Close account-file
                        Move "Your account has been created." 
@@ -159,6 +164,11 @@
                                    At end
                                        Move "Y" to end-of-file
                                    Not at end
+                                       Unstring Account-Record
+                                           Delimited by "|"
+                                           Into Account-Username
+                                                Account-Password
+                                       End-Unstring
                                        If temp-username
                                            = Account-Username
                                            Move "N" to unique-flag
@@ -258,6 +268,11 @@
                                    At end
                                        Move "Y" to end-of-file
                                    Not at end
+                                       Unstring Account-Record
+                                           Delimited by "|"
+                                           Into Account-Username
+                                                Account-Password
+                                       End-Unstring
                                        If username = Account-Username
                                            Move Account-Password
                                                to stored-password

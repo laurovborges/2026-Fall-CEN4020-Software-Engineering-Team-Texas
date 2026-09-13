@@ -4,13 +4,13 @@ Create New Account
 Enter your choice:
 [Create New Account]
 Please create a username:
-heywhatsup
+swag_haver_123
 Please create a password:
 1!Hey you
-Your password must not contain spaces
+Your password must not contain spaces.
 Please create a password:
 abBCDacdefgh123!~#
-Your password must contain no more than 12 characters.
+Your password must contain no mthan 12 characters.
 Please create a password:
-ew21$doaB
+Banana123!
 Your account has been created.
