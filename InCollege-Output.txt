@@ -2,19 +2,13 @@ Welcome to InCollege!
 Log In
 Create New Account
 Enter your choice:
-Create New Account
-[Create New Account]
-Please create a username:
-Ninajirachi
-Please create a password:
-1!Hey you
-Your password must not contain spaces.
-Please create a password:
-abBCDacdefgh123!~#
-Your password must contain no more than 12 characters.
-Please create a password:
-Banana123!
-Your account has been created.
+Log In
+[Log In]
+Please enter your username:
+heywhatsup
+Please enter your password:
+You have successfully logged in.
+Welcome heywhatsup!
 1. Create/Edit My Profile
 2. View My Profile
 3. Search for a job
@@ -25,32 +19,44 @@ Enter your choice:
 1
 --- Create/Edit Profile ---
 Enter First Name:
-Nina
+
+First Name is required.
+Enter First Name:
+Bob
 Enter Last Name:
-Wilson
+
+Last Name is required.
+Enter Last Name:
+Testingman
 Enter University/College Attended:
-USF
+
+University/College is required.
+Enter University/College Attended:
+University of South Florida
 Enter Major:
-Comp Sci
+
+Major is required.
+Enter Major:
+Kickflips
+Enter Graduation Year (YYYY):
+202
+Graduation Year must be a valid    4-digit year.
+Enter Graduation Year (YYYY):
+1992
+Graduation Year must be between2026 and 2033.
+Enter Graduation Year (YYYY):
+3063
+Graduation Year must be between2026 and 2033.
 Enter Graduation Year (YYYY):
 2026
 Enter About Me (optional; blank skips):
-hello this is a very detailed about me section
+what about me?
 How many experience entries? (0-3):
-Y
+
 Experience entries must be 0-3.
 How many experience entries? (0-3):
-0
-How many education entries? (0-3):
-0
-Profile saved successfully!
-Return to main menu? (Y/N)
-Y
-1. Create/Edit My Profile
-2. View My Profile
-3. Search for a job
-4. Find someone you know
-5. Learn a new skill
-6. Log Out
-Enter your choice:
-6
+one
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+1
+Enter Experience Title:
