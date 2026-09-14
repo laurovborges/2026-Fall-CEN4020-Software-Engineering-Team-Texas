@@ -63,12 +63,31 @@
        01 stored-password pic X(12).
          01 Profile-Username pic X(100).
          01 Profile-Year-Input pic X(100).
+
+
          01 Profile-Found pic X value "N".
          01 Profile-Input-Length pic 9(5).
          01 Profile-Year-Length pic 9(5).
          01 Profile-Saved pic X value "N".
-        01 New-Profile-Record pic X(1000).
+        01 New-Profile-Record pic X(5000).
 
+         01 Experience-count pic 9 value 0.
+
+         01 Education-count pic 9 value 0.
+
+         01 Entry-Index pic 9 value 0.
+
+         01 Experience-table.
+            05 Experience-Entry occurs 3 times.
+               10 Experience-Company pic X(100).
+               10 Experience-Title pic X(100).
+               10 Experience-Dates pic X(50).
+               10 Experience-Description pic X(500).
+         01 Education-table.
+            05 Education-Entry occurs 3 times.
+               10 Education-University pic X(100).
+               10 Education-Degree pic X(100).
+               10 Education-Years pic X(50).
        01 output-message pic X(1000).
        01 input-char pic 9(5).
        01 user-num pic 9(5).
@@ -690,6 +709,121 @@
                    End-read
                End-perform
 
+               Move 9 to Experience-count
+               Perform until Experience-count <= 3
+                   Move "How many experience entries? (0-3):"
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           If Input-Record(1:1) IS NUMERIC
+                           Move Input-Record(1:1)
+                               to Experience-count
+                       
+                           If Experience-count > 3
+                               Move "Experience entries must be 0-3."
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                           End-if
+                       Else
+                           Move 9 to Experience-count
+                           Move "Experience entries must be 0-3."
+                               to output-message
+                           Perform WRITE-OUTPUT
+                       End-if
+                     End-read
+                End-perform
+               
+               Perform varying Entry-Index from 1 by 1
+                   Until Entry-Index > Experience-count
+
+                   Move "Enter Experience Title:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record to Experience-Title(Entry-Index)
+
+                   Move "Enter Experience Company:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record to Experience-Company(Entry-Index)
+
+                   Move "Enter Experience Dates:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record to Experience-Dates(Entry-Index)
+
+                   Move "Enter Experience Description:" 
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record 
+                       to Experience-Description(Entry-Index)
+                End-perform
+
+                 Move 9 to Education-count
+               Perform until Education-count <= 3
+                   Move "How many education entries? (0-3):"
+                       to output-message
+                   Perform WRITE-OUTPUT
+                   read input-file
+                       At end
+                           Close input-file
+                           Close output-file
+                           STOP RUN
+                       Not at end
+                           Perform ECHO-INPUT
+                           If Input-Record(1:1) IS NUMERIC
+                           Move Input-Record(1:1)
+                               to Education-count
+                       
+                           If Education-count > 3
+                               Move "Education entries must be 0-3."
+                                   to output-message
+                               Perform WRITE-OUTPUT
+                           End-if
+                       Else
+                           Move 9 to Education-count
+                           Move "Education entries must be 0-3."
+                               to output-message
+                           Perform WRITE-OUTPUT
+                       End-if
+                     End-read
+                End-perform
+
+                Perform varying Entry-Index from 1 by 1
+                   Until Entry-Index > Education-count
+
+                   Move "Enter Education University:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record 
+                   to Education-University(Entry-Index)
+
+                   Move "Enter Education Degree:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record 
+                   to Education-Degree(Entry-Index)
+
+                   Move "Enter Education Years:" to output-message
+                   Perform WRITE-OUTPUT
+                   Read input-file
+                   Perform ECHO-INPUT
+                   Move Input-Record 
+                   to Education-Years(Entry-Index)
+                End-perform
+
                Initialize New-Profile-Record
                String
                    Function Trim(username) Delimited by Size
@@ -705,6 +839,77 @@
                    Graduation-Year Delimited by Size
                    "|" Delimited by Size
                    Function Trim(About-Me) Delimited by Size
+
+                   Experience-count Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Experience-Title(1)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Company(1)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Dates(1)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Description(1)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Experience-Title(2)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Company(2)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Dates(2)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Description(2)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Experience-Title(3)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Company(3)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Dates(3)) Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Experience-Description(3)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+
+                   Education-count Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Education-University(1)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Degree(1)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Years(1)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Education-University(2)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Degree(2)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Years(2)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+
+                   Function Trim(Education-University(3)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Degree(3)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                   Function Trim(Education-Years(3)) 
+                   Delimited by Size
+                   "|" Delimited by Size
+                  
+                   
                    Into New-Profile-Record
                End-String
 
@@ -759,6 +964,29 @@
                                     College-Major
                                     Graduation-Year
                                     About-Me
+                                    Experience-count
+                                    Experience-Title(1)
+                                    Experience-Company(1)
+                                    Experience-Dates(1)
+                                    Experience-Description(1)
+                                    Experience-Title(2)
+                                    Experience-Company(2)
+                                    Experience-Dates(2)
+                                    Experience-Description(2)
+                                    Experience-Title(3)
+                                    Experience-Company(3)
+                                    Experience-Dates(3)
+                                    Experience-Description(3)
+                                    Education-count
+                                    Education-University(1)
+                                    Education-Degree(1)
+                                    Education-Years(1)
+                                    Education-University(2)
+                                    Education-Degree(2)
+                                    Education-Years(2)
+                                    Education-University(3)
+                                    Education-Degree(3)
+                                    Education-Years(3)
                            End-Unstring
                            If Profile-Username = username
                                Move "Y" to Profile-Found
@@ -807,7 +1035,87 @@
                        Into output-message
                    End-String
                    Perform WRITE-OUTPUT
+
+                   If Experience-count > 0
+                   Move "Experience:" to output-message
+                   Perform WRITE-OUTPUT
+                     Perform varying Entry-Index from 1 by 1
+                          Until Entry-Index > Experience-count
+                          
+                          Initialize output-message
+                          String
+                            "Title: " Delimited by Size
+                            Function Trim(
+                                Experience-Title(Entry-Index))
+                                 Delimited by Size
+                            Into output-message
+                          End-String
+                          Perform WRITE-OUTPUT
+                          Initialize output-message
+                          String
+                            "Company: " Delimited by Size
+                            Function Trim(
+                                Experience-Company(Entry-Index))
+                                 Delimited by Size
+                            Into output-message
+                          End-String
+                          Perform WRITE-OUTPUT
+                          Initialize output-message
+                          String
+                            "Dates: " Delimited by Size
+                            Function Trim(
+                                Experience-Dates(Entry-Index))
+                                 Delimited by Size
+                            Into output-message
+                          End-String
+                          Perform WRITE-OUTPUT
+                          Initialize output-message
+                          String
+                            "Description: " Delimited by Size
+                            Function Trim(
+                                Experience-Description(Entry-Index))
+                                 Delimited by Size
+                            Into output-message
+                          End-String
+                          Perform WRITE-OUTPUT
+                     End-perform
                End-if
+
+                If Education-count > 0
+                     Move "Education:" to output-message
+                     Perform WRITE-OUTPUT
+                        Perform varying Entry-Index from 1 by 1
+                              Until Entry-Index > Education-count
+                              
+                              Initialize output-message
+                              String
+                             "University: " Delimited by Size
+                             Function Trim(
+                                  Education-University(Entry-Index))
+                                    Delimited by Size
+                             Into output-message
+                              End-String
+                              Perform WRITE-OUTPUT
+                              Initialize output-message
+                              String
+                             "Degree: " Delimited by Size
+                             Function Trim(
+                                  Education-Degree(Entry-Index))
+                                    Delimited by Size
+                             Into output-message
+                              End-String
+                              Perform WRITE-OUTPUT
+                              Initialize output-message
+                              String
+                             "Years: " Delimited by Size
+                             Function Trim(
+                                  Education-Years(Entry-Index))
+                                    Delimited by Size
+                             Into output-message
+                              End-String
+                              Perform WRITE-OUTPUT
+                        End-perform
+                End-if
                Perform RETURN-TO-MENU.
 
            RETURN-TO-MENU.

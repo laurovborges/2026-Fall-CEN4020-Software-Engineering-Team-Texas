@@ -36,6 +36,13 @@ Enter Graduation Year (YYYY):
 2026
 Enter About Me (optional; blank skips):
 hello this is a very detailed about me section
+How many experience entries? (0-3):
+Y
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+0
+How many education entries? (0-3):
+0
 Profile saved successfully!
 Return to main menu? (Y/N)
 Y
@@ -46,11 +53,4 @@ Y
 5. Learn a new skill
 6. Log Out
 Enter your choice:
-2
---- Your Profile ---
-Name: Nina Wilson
-University: USF
-Major: Comp Sci
-Graduation Year: 2026
-About Me: hello this is a very detailed about me section
-Return to main menu? (Y/N)
+6
