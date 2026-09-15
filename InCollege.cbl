@@ -82,7 +82,7 @@
                10 Experience-Company pic X(100).
                10 Experience-Title pic X(100).
                10 Experience-Dates pic X(50).
-               10 Experience-Description pic X(500).
+               10 Experience-Description pic X(100).
          01 Education-table.
             05 Education-Entry occurs 3 times.
                10 Education-University pic X(100).
@@ -720,22 +720,27 @@
                            Close output-file
                            STOP RUN
                        Not at end
-                           Perform ECHO-INPUT
-                           If Input-Record(1:1) IS NUMERIC
-                           Move Input-Record(1:1)
-                               to Experience-count
-                       
-                           If Experience-count > 3
-                               Move "Experience entries must be 0-3."
-                                   to output-message
-                               Perform WRITE-OUTPUT
-                           End-if
-                       Else
-                           Move 9 to Experience-count
-                           Move "Experience entries must be 0-3."
-                               to output-message
-                           Perform WRITE-OUTPUT
-                       End-if
+                          Perform ECHO-INPUT
+
+                          Compute Profile-Input-Length = Function Length
+                               (Function Trim(Input-Record))
+
+                          If Profile-Input-Length = 1
+                          And Input-Record(1:1) IS NUMERIC
+                              Move Input-Record(1:1)
+                                  to Experience-count
+
+                              If Experience-count > 3
+                                  Move "Experience entries must be 0-3."
+                                       to output-message
+                                  Perform WRITE-OUTPUT
+                              End-if
+                          Else
+                              Move 9 to Experience-count
+                              Move "Experience entries must be 0-3."
+                                  to output-message
+                              Perform WRITE-OUTPUT
+                          End-if
                      End-read
                 End-perform
                
@@ -781,21 +786,26 @@
                            STOP RUN
                        Not at end
                            Perform ECHO-INPUT
-                           If Input-Record(1:1) IS NUMERIC
-                           Move Input-Record(1:1)
-                               to Education-count
-                       
-                           If Education-count > 3
-                               Move "Education entries must be 0-3."
-                                   to output-message
-                               Perform WRITE-OUTPUT
-                           End-if
-                       Else
-                           Move 9 to Education-count
-                           Move "Education entries must be 0-3."
-                               to output-message
-                           Perform WRITE-OUTPUT
-                       End-if
+
+                          Compute Profile-Input-Length = Function Length
+                              (Function Trim(Input-Record))
+
+                          If Profile-Input-Length = 1
+                          And Input-Record(1:1) IS NUMERIC
+                              Move Input-Record(1:1)
+                                  to Education-count
+
+                              If Education-count > 3
+                                  Move "Education entries must be 0-3."
+                                      to output-message
+                                  Perform WRITE-OUTPUT
+                              End-if
+                           Else
+                              Move 9 to Education-count
+                              Move "Education entries must be 0-3."
+                                  to output-message
+                              Perform WRITE-OUTPUT
+                          End-if
                      End-read
                 End-perform
 
@@ -839,6 +849,7 @@
                    Graduation-Year Delimited by Size
                    "|" Delimited by Size
                    Function Trim(About-Me) Delimited by Size
+                   "|" Delimited by Size
 
                    Experience-count Delimited by Size
                    "|" Delimited by Size
