@@ -50,13 +50,77 @@ Graduation Year must be between2026 and 2033.
 Enter Graduation Year (YYYY):
 2026
 Enter About Me (optional; blank skips):
-what about me?
+woah! this is a ludicrously long about me section that is more than 200 characters long! you really should not be allowed to write that many characters because not only would that be convoluted and difficult to read, it would also just be plain silly.
+About Me must be 200 characters or less.
+Enter About Me (optional; blank skips):
+what about me????
 How many experience entries? (0-3):
 
 Experience entries must be 0-3.
 How many experience entries? (0-3):
-one
+two
 Experience entries must be 0-3.
 How many experience entries? (0-3):
-1
-Enter Experience Title:
+0
+How many education entries? (0-3):
+Bench Warmer
+Education entries must be 0-3.
+How many education entries? (0-3):
+Jimmybob's Park
+Education entries must be 0-3.
+How many education entries? (0-3):
+back then to right now
+Education entries must be 0-3.
+How many education entries? (0-3):
+yeah it was cool i guess
+Education entries must be 0-3.
+How many education entries? (0-3):
+sdfjsdf
+Education entries must be 0-3.
+How many education entries? (0-3):
+cool company
+Education entries must be 0-3.
+How many education entries? (0-3):
+yesterday to also yesterday
+Education entries must be 0-3.
+How many education entries? (0-3):
+i got fired
+Education entries must be 0-3.
+How many education entries? (0-3):
+
+Education entries must be 0-3.
+How many education entries? (0-3):
+two
+Education entries must be 0-3.
+How many education entries? (0-3):
+2
+Enter Education University:
+kewl skewl
+Enter Education Degree:
+participation award
+Enter Education Years:
+2023-2024
+Enter Education University:
+SCHOOL
+Enter Education Degree:
+DEGREE
+Enter Education Years:
+YEARS
+Profile saved successfully!
+Return to main menu? (Y/N)
+Y
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+2
+--- Your Profile ---
+Name: Bob Testingman
+University: University of South Florida
+Major: Kickflips
+Graduation Year: 2026
+About Me: what about me????0
+Return to main menu? (Y/N)
