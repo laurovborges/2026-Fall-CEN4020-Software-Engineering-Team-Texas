@@ -114,5 +114,21 @@ Name: Bob Testingman
 University: University of South Florida
 Major: Kickflips
 Graduation Year: 2026
-About Me: what about me????2
+About Me: what about me????
+Experience:
+Title: Bench Warmer
+Company: Jimmybob's Park
+Dates: back then to right now
+Description: yeah it was cool i guess
+Title: sdfjsdf
+Company: cool company
+Dates: yesterday to also yesterday
+Description: i got fired
+Education:
+University: kewl skewl
+Degree: participation award
+Years: 2023-2024
+University: SCHOOL
+Degree: DEGREE
+Years: YEARS
 Return to main menu? (Y/N)
