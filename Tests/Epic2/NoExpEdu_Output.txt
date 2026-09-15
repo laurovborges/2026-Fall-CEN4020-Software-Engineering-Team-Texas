@@ -1,0 +1,105 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+Log In
+[Log In]
+Please enter your username:
+heywhatsup
+Please enter your password:
+You have successfully logged in.
+Welcome heywhatsup!
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+1
+--- Create/Edit Profile ---
+Enter First Name:
+
+First Name is required.
+Enter First Name:
+Bob
+Enter Last Name:
+
+Last Name is required.
+Enter Last Name:
+Testingman
+Enter University/College Attended:
+
+University/College is required.
+Enter University/College Attended:
+University of South Florida
+Enter Major:
+
+Major is required.
+Enter Major:
+Kickflips
+Enter Graduation Year (YYYY):
+202
+Graduation Year must be a valid    4-digit year.
+Enter Graduation Year (YYYY):
+1992
+Graduation Year must be between2026 and 2033.
+Enter Graduation Year (YYYY):
+3063
+Graduation Year must be between2026 and 2033.
+Enter Graduation Year (YYYY):
+2026
+Enter About Me (optional; blank skips):
+woah! this is a ludicrously long about me section that is more than 200 characters long! you really should not be allowed to write that many characters because not only would that be convoluted and difficult to read, it would also just be plain silly.
+About Me must be 200 characters or less.
+Enter About Me (optional; blank skips):
+what about me????
+How many experience entries? (0-3):
+
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+two
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+42
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+0
+How many education entries? (0-3):
+
+Education entries must be 0-3.
+How many education entries? (0-3):
+five
+Education entries must be 0-3.
+How many education entries? (0-3):
+5
+Education entries must be 0-3.
+How many education entries? (0-3):
+0
+Profile saved successfully!
+Return to main menu? (Y/N)
+Y
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+2
+--- Your Profile ---
+Name: Bob Testingman
+University: University of South Florida
+Major: Kickflips
+Graduation Year: 2026
+About Me: what about me????
+Return to main menu? (Y/N)
+Y
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+6
