@@ -1,0 +1,134 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+Log In
+[Log In]
+Please enter your username:
+heywhatsup
+Please enter your password:
+You have successfully logged in.
+Welcome heywhatsup!
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+1
+--- Create/Edit Profile ---
+Enter First Name:
+
+First Name is required.
+Enter First Name:
+Bob
+Enter Last Name:
+
+Last Name is required.
+Enter Last Name:
+Testingman
+Enter University/College Attended:
+
+University/College is required.
+Enter University/College Attended:
+University of South Florida
+Enter Major:
+
+Major is required.
+Enter Major:
+Kickflips
+Enter Graduation Year (YYYY):
+202
+Graduation Year must be a valid    4-digit year.
+Enter Graduation Year (YYYY):
+1992
+Graduation Year must be between2026 and 2033.
+Enter Graduation Year (YYYY):
+3063
+Graduation Year must be between2026 and 2033.
+Enter Graduation Year (YYYY):
+2026
+Enter About Me (optional; blank skips):
+woah! this is a ludicrously long about me section that is more than 200 characters long! you really should not be allowed to write that many characters because not only would that be convoluted and difficult to read, it would also just be plain silly.
+About Me must be 200 characters or less.
+Enter About Me (optional; blank skips):
+what about me????
+How many experience entries? (0-3):
+
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+two
+Experience entries must be 0-3.
+How many experience entries? (0-3):
+2
+Enter Experience Title:
+Bench Warmer
+Enter Experience Company:
+Jimmybob's Park
+Enter Experience Dates:
+back then to right now
+Enter Experience Description:
+yeah it was cool i guess
+Enter Experience Title:
+sdfjsdf
+Enter Experience Company:
+cool company
+Enter Experience Dates:
+yesterday to also yesterday
+Enter Experience Description:
+i got fired
+How many education entries? (0-3):
+
+Education entries must be 0-3.
+How many education entries? (0-3):
+two
+Education entries must be 0-3.
+How many education entries? (0-3):
+2
+Enter Education University:
+kewl skewl
+Enter Education Degree:
+participation award
+Enter Education Years:
+2023-2024
+Enter Education University:
+SCHOOL
+Enter Education Degree:
+DEGREE
+Enter Education Years:
+YEARS
+Profile saved successfully!
+Return to main menu? (Y/N)
+Y
+1. Create/Edit My Profile
+2. View My Profile
+3. Search for a job
+4. Find someone you know
+5. Learn a new skill
+6. Log Out
+Enter your choice:
+2
+--- Your Profile ---
+Name: Bob Testingman
+University: University of South Florida
+Major: Kickflips
+Graduation Year: 2026
+About Me: what about me????
+Experience:
+Title: Bench Warmer
+Company: Jimmybob's Park
+Dates: back then to right now
+Description: yeah it was cool i guess
+Title: sdfjsdf
+Company: cool company
+Dates: yesterday to also yesterday
+Description: i got fired
+Education:
+University: kewl skewl
+Degree: participation award
+Years: 2023-2024
+University: SCHOOL
+Degree: DEGREE
+Years: YEARS
+Return to main menu? (Y/N)
