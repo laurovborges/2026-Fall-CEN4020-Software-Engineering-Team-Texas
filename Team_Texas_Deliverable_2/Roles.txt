@@ -1,0 +1,5 @@
+Coder #1: Lauro Borges
+Coder #2: Angel Burgos
+Tester #1: Sara Cathey
+Tester #2: Rory Croasdale
+Scrum Master: Tuan Minh Dao
